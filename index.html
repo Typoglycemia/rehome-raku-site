@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAKUリフォーム | 日本のリフォームを、もっとラクに。</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&family=Noto+Serif+JP:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+      background: #fff;
+      color: #333;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    :root {
+      --green: #2d8a4e;
+      --dark:  #1a2e1f;
+      --cream: #f9f9f7;
+      --taupe: #7a8c80;
+      --hair:  #e5ece7;
+      --serif: 'Noto Serif JP', 'Yu Mincho', '游明朝', 'Hiragino Mincho ProN', serif;
+      --sans:  'Noto Sans JP', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+    }
+    body { background: #fff; }
+
+    /* ===== ヘッダー ===== */
+    #site-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: #fff;
+      transition: box-shadow 0.3s, border-color 0.3s;
+    }
+    #site-header.scrolled {
+      box-shadow: 0 1px 16px rgba(0,0,0,0.07);
+    }
+    .header-top {
+      max-width: 1200px; margin: 0 auto; padding: 14px 24px 14px 32px;
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    }
+    .logo-link {
+      display: flex; align-items: baseline; gap: 14px; text-decoration: none; flex-wrap: wrap;
+    }
+    .logo-img { width: 30px; height: 30px; object-fit: contain; }
+    .logo-name {
+      font-family: var(--serif); font-size: 21px; color: var(--dark);
+      letter-spacing: 0.22em; line-height: 1.2; font-weight: 500;
+    }
+    .logo-sub {
+      font-family: var(--sans); font-size: 11px; color: var(--taupe); letter-spacing: 0.04em;
+    }
+    .header-contact {
+      display: flex; align-items: center; gap: 0;
+      background: var(--dark); color: #fff;
+      border-radius: 3px; overflow: hidden;
+    }
+    .header-contact a {
+      font-family: var(--sans); font-size: 12px; color: rgba(255,255,255,0.92);
+      text-decoration: none; display: flex; align-items: center; gap: 7px;
+      padding: 11px 20px;
+    }
+    .header-contact a svg { width: 13px; height: 13px; flex-shrink: 0; }
+    .header-nav {
+      border-top: 1px solid var(--hair); background: #fff;
+    }
+    .header-nav-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 24px;
+      display: flex; justify-content: center;
+    }
+    .header-nav a {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 13px 30px; text-decoration: none;
+      border-right: 1px solid var(--hair);
+      transition: background 0.2s;
+    }
+    .header-nav a:first-child { border-left: 1px solid var(--hair); }
+    .header-nav a:hover { background: #f0f7f3; }
+    .nav-en { font-family: var(--serif); font-size: 12px; color: var(--dark); letter-spacing: 0.14em; margin-bottom: 3px; }
+    .nav-ja { font-family: var(--sans); font-size: 10px; color: var(--taupe); }
+
+    /* ハンバーガー */
+    .hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      color: var(--dark); padding: 4px;
+    }
+    .hamburger svg { width: 20px; height: 20px; }
+    .mobile-menu {
+      display: none; background: #fff; border-top: 1px solid #eee;
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-menu a {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 24px; font-family: var(--sans); font-size: 13px; color: #333;
+      text-decoration: none; border-bottom: 1px solid #f5f5f5;
+    }
+    .mobile-menu a span.m-en { font-size: 10px; color: var(--green); letter-spacing: 0.1em; }
+
+    /* ===== ヒーロー ===== */
+    #hero {
+      position: relative;
+      width: 100%;
+      height: calc(100vh - 97px);
+      overflow: hidden;
+      background: #111;
+      margin-top: 97px;
+    }
+    .slide {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+    .slide.active { opacity: 1; }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.18);
+    }
+    .hero-dots {
+      position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 8px;
+    }
+    .hero-dot {
+      height: 6px; border-radius: 3px;
+      background: rgba(255,255,255,0.4);
+      border: none; cursor: pointer; padding: 0;
+      transition: all 0.3s; width: 6px;
+    }
+    .hero-dot.active { background: #fff; width: 20px; }
+    .hero-scroll {
+      position: absolute; bottom: 28px; right: 32px;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      color: rgba(255,255,255,0.6);
+    }
+    .hero-scroll span {
+      font-family: var(--sans); font-size: 9px; letter-spacing: 0.2em;
+      writing-mode: vertical-rl;
+    }
+    .hero-scroll-line { width: 1px; height: 40px; background: rgba(255,255,255,0.4); }
+    .hero-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.5);
+      color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s; z-index: 5;
+    }
+    .hero-arrow:hover { background: rgba(255,255,255,0.3); }
+    .hero-arrow.prev { left: 24px; }
+    .hero-arrow.next { right: 24px; }
+    .hero-arrow svg { width: 16px; height: 16px; }
+    @media (max-width: 640px) { .hero-arrow { display: none; } }
+
+    /* ===== セクション共通 ===== */
+    .section-title {
+      margin-bottom: 48px; display: flex; align-items: baseline; gap: 14px;
+      border-bottom: 1px solid var(--hair); padding-bottom: 16px;
+    }
+    .section-title.center { justify-content: center; text-align: center; }
+    .section-title .en {
+      font-family: var(--serif); font-size: 24px; color: var(--dark);
+      letter-spacing: 0.1em; font-weight: 500;
+    }
+    .section-title.light .en { color: #fff; }
+    .section-title.light { border-bottom-color: rgba(255,255,255,0.15); }
+    .section-title .ja {
+      font-family: var(--sans); font-size: 12px; color: var(--taupe);
+      letter-spacing: 0.05em;
+    }
+    .section-title.light .ja { color: rgba(255,255,255,0.55); }
+    .section-title .line { display: none; }
+
+    /* ===== コンセプト ===== */
+    #concept {
+      padding: 96px 24px; background: #fff;
+      border-top: 3px solid var(--green);
+    }
+    #concept .inner { max-width: 680px; margin: 0 auto; }
+    #concept h2 {
+      font-family: var(--serif); font-weight: 500;
+      font-size: clamp(20px, 2.5vw, 28px);
+      color: var(--dark); line-height: 1.8; margin-bottom: 32px;
+      border-left: 4px solid var(--green); padding-left: 20px;
+    }
+    #concept h2 .accent { color: var(--green); }
+    #concept .body { font-family: var(--sans); font-size: 14px; color: #555; line-height: 2.2; }
+    #concept .body p { margin-bottom: 20px; }
+    #concept .body p:last-child { margin-bottom: 0; }
+    #concept strong { color: var(--dark); font-weight: 500; }
+
+    /* ===== 施工実績 ===== */
+    #works { padding: 96px 0; background: var(--cream); }
+    #works .inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .works-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 3px; margin: 40px 0;
+      border-top: 2px solid var(--green);
+    }
+    @media (max-width: 640px) { .works-grid { grid-template-columns: repeat(2, 1fr); } }
+    .works-grid-item {
+      position: relative; overflow: hidden; aspect-ratio: 4/3;
+    }
+    .works-grid-item img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform 0.5s ease;
+    }
+    .works-grid-item:hover img { transform: scale(1.04); }
+    .works-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2px; background: var(--green);
+      border: 2px solid var(--green); margin-bottom: 40px;
+    }
+    .works-stat {
+      background: #fff; padding: 28px 0; text-align: center;
+      transition: background 0.2s;
+    }
+    .works-stat:hover { background: #f0f7f3; }
+    .works-stat .num {
+      font-family: var(--serif); font-size: 36px; color: var(--green); line-height: 1;
+    }
+    .works-stat .num .unit { font-size: 14px; color: #999; margin-left: 2px; }
+    .works-stat .label {
+      font-family: var(--sans); font-size: 11px; color: #999; margin-top: 8px; letter-spacing: 0.05em;
+    }
+    .works-more { text-align: center; }
+    .works-more a {
+      display: inline-block;
+      font-family: var(--sans); font-size: 12px; color: var(--green);
+      border: 1px solid var(--green); padding: 10px 32px;
+      text-decoration: none; letter-spacing: 0.1em;
+      transition: background 0.2s, color 0.2s;
+    }
+    .works-more a:hover { background: var(--green); color: #fff; }
+
+    /* ===== 特徴 ===== */
+    #features { padding: 96px 24px; background: #fff; }
+    #features .inner { max-width: 680px; margin: 0 auto; }
+    .feature-list { display: flex; flex-direction: column; gap: 48px; }
+    .feature-item { display: flex; gap: 28px; align-items: flex-start; }
+    .feature-num {
+      font-family: var(--serif); font-size: 28px; color: var(--green);
+      opacity: 0.25; line-height: 1; flex-shrink: 0; width: 48px; padding-top: 4px;
+    }
+    .feature-item h3 {
+      font-family: var(--serif); font-weight: 500; font-size: 17px;
+      color: var(--dark); margin-bottom: 12px;
+    }
+    .feature-item p { font-family: var(--sans); font-size: 13px; color: #666; line-height: 2.1; }
+
+    /* ===== ストーリー ===== */
+    #story { padding: 96px 24px; background: var(--cream); }
+    #story .inner { max-width: 680px; margin: 0 auto; }
+    #story .body { font-family: var(--sans); font-size: 13px; color: #555; line-height: 2.3; }
+    #story h3 {
+      font-family: var(--serif); font-weight: 500; font-size: 16px;
+      color: var(--dark); margin-bottom: 16px;
+    }
+    #story p { margin-bottom: 24px; }
+    #story .sign { color: var(--green); font-family: var(--serif); font-weight: 500; font-size: 14px; }
+
+    /* ===== フロー ===== */
+    #flow { padding: 96px 24px; background: #fff; }
+    #flow .inner { max-width: 680px; margin: 0 auto; }
+    .flow-item { display: flex; gap: 24px; }
+    .flow-left { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+    .flow-num {
+      width: 36px; height: 36px;
+      background: var(--green); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--serif); font-size: 13px; flex-shrink: 0;
+    }
+    .flow-line { width: 1px; flex: 1; background: #e0ece3; min-height: 36px; margin: 4px 0; }
+    .flow-content { padding-bottom: 32px; padding-top: 6px; }
+    .flow-item:last-child .flow-content { padding-bottom: 0; }
+    .flow-item:last-child .flow-line { display: none; }
+    .flow-content h3 {
+      font-family: var(--serif); font-weight: 500; font-size: 15px;
+      color: var(--dark); margin-bottom: 8px;
+    }
+    .flow-content p { font-family: var(--sans); font-size: 13px; color: #777; line-height: 2; }
+
+    /* ===== FAQ ===== */
+    #faq { padding: 96px 24px; background: var(--cream); }
+    #faq .inner { max-width: 680px; margin: 0 auto; }
+    .faq-item { border-bottom: 1px solid #e8e8e8; }
+    .faq-q {
+      width: 100%; display: flex; justify-content: space-between; align-items: flex-start;
+      padding: 20px 0; background: none; border: none; cursor: pointer; text-align: left; gap: 16px;
+    }
+    .faq-q-inner { display: flex; gap: 14px; align-items: flex-start; }
+    .faq-q-label { font-family: var(--serif); font-size: 13px; color: var(--green); flex-shrink: 0; margin-top: 1px; }
+    .faq-q-text { font-family: var(--sans); font-size: 13px; color: var(--dark); line-height: 1.8; }
+    .faq-toggle { color: #bbb; flex-shrink: 0; font-size: 18px; line-height: 1; margin-top: 2px; }
+    .faq-a { padding-bottom: 20px; padding-left: 28px; display: none; }
+    .faq-a.open { display: block; }
+    .faq-a-inner { display: flex; gap: 14px; }
+    .faq-a-label { font-family: var(--serif); font-size: 13px; color: #c0622a; flex-shrink: 0; }
+    .faq-a-text { font-family: var(--sans); font-size: 13px; color: #666; line-height: 2; }
+
+    /* ===== コンタクト ===== */
+    #contact { padding: 96px 24px; background: var(--dark); }
+    #contact .inner { max-width: 680px; margin: 0 auto; text-align: center; }
+    #contact .sub { font-family: var(--sans); font-size: 13px; color: rgba(255,255,255,0.7); line-height: 2.2; margin-bottom: 8px; }
+    #contact .note { font-family: var(--sans); font-size: 12px; color: rgba(255,255,255,0.35); margin-bottom: 40px; }
+    .contact-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+    .contact-btns a {
+      font-family: var(--sans); font-size: 13px;
+      padding: 14px 36px; text-decoration: none;
+      display: flex; align-items: center; gap: 8px; letter-spacing: 0.05em;
+    }
+    .contact-btns a svg { width: 14px; height: 14px; }
+    .btn-mail { background: var(--green); color: #fff; }
+    .btn-tel { border: 1px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.8); }
+    #contact .hours { font-family: var(--sans); font-size: 11px; color: rgba(255,255,255,0.25); }
+
+    /* ===== 会社案内 ===== */
+    #about { padding: 96px 24px; background: #fff; }
+    #about .inner { max-width: 680px; margin: 0 auto; }
+    .about-table { width: 100%; border-collapse: collapse; }
+    .about-table tr { border-bottom: 1px solid #e8e8e8; }
+    .about-table td { padding: 14px 0; font-family: var(--sans); }
+    .about-table .th { font-size: 12px; color: #aaa; width: 120px; vertical-align: top; letter-spacing: 0.05em; }
+    .about-table .td { font-size: 13px; color: #444; }
+
+    /* ===== フッター ===== */
+    footer { background: var(--dark); padding: 40px 24px; }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px;
+    }
+    .footer-logo { display: flex; align-items: center; gap: 10px; }
+    .footer-logo img { width: 28px; height: 28px; object-fit: contain; }
+    .footer-logo-name { font-family: var(--serif); font-size: 15px; color: #fff; letter-spacing: 0.1em; }
+    .footer-logo-sub { font-family: var(--sans); font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 2px; }
+    .footer-nav { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer-nav a { font-family: var(--sans); font-size: 10px; color: rgba(255,255,255,0.35); text-decoration: none; letter-spacing: 0.12em; }
+    .footer-copy {
+      max-width: 1100px; margin: 20px auto 0;
+      border-top: 1px solid rgba(255,255,255,0.06); padding-top: 16px; text-align: center;
+    }
+    .footer-copy p { font-family: var(--sans); font-size: 10px; color: rgba(255,255,255,0.2); letter-spacing: 0.08em; }
+
+    /* ===== スマホ固定CTA ===== */
+    #mobile-cta {
+      display: none;
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+      grid-template-columns: 1fr 1fr;
+    }
+    #mobile-cta a {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      font-family: var(--sans); font-size: 12px; padding: 14px 0; text-decoration: none;
+    }
+    #mobile-cta a svg { width: 13px; height: 13px; }
+    #mobile-cta .cta-tel { background: var(--dark); color: #fff; }
+    #mobile-cta .cta-mail { background: var(--green); color: #fff; }
+
+    /* ===== レスポンシブ ===== */
+    @media (max-width: 640px) {
+      .header-contact { display: none; }
+      .header-nav { display: none; }
+      .hamburger { display: block; }
+      #hero { margin-top: 58px; height: calc(100vh - 58px); }
+      .works-grid { grid-template-columns: repeat(2, 1fr); }
+      .works-stats { grid-template-columns: 1fr; }
+      #mobile-cta { display: grid; }
+      .contact-btns { flex-direction: column; align-items: center; }
+      .contact-btns a { width: 100%; max-width: 280px; justify-content: center; }
+    }
+    @media (min-width: 641px) {
+      .hamburger { display: none; }
+      .mobile-menu { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== ヘッダー ===== -->
+<header id="site-header">
+  <div class="header-top">
+    <a href="#" class="logo-link">
+      <img class="logo-img" src="https://rehome-raku.com/wp-content/uploads/2024/07/RAKU_logo.png" alt="RAKU" onerror="this.style.display='none'" />
+      <span class="logo-name">RAKUリフォーム</span>
+      <span class="logo-sub">日本のリフォームを、もっとラクに。</span>
+    </a>
+    <div class="header-contact">
+      <a href="mailto:raku.rehome@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        raku.rehome@gmail.com
+      </a>
+      <a href="tel:03-5326-3024">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        03-5326-3024
+      </a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="メニュー">
+      <svg id="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg id="close-icon" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <nav class="header-nav">
+    <div class="header-nav-inner">
+      <a href="#concept"><span class="nav-en">CONCEPT</span><span class="nav-ja">コンセプト</span></a>
+      <a href="#works"><span class="nav-en">WORKS</span><span class="nav-ja">施工実績</span></a>
+      <a href="#flow"><span class="nav-en">FLOW</span><span class="nav-ja">ご依頼の流れ</span></a>
+      <a href="#about"><span class="nav-en">ABOUT</span><span class="nav-ja">会社案内</span></a>
+      <a href="#faq"><span class="nav-en">FAQ</span><span class="nav-ja">よくある質問</span></a>
+      <a href="#contact"><span class="nav-en">CONTACT</span><span class="nav-ja">お問い合わせ</span></a>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#concept" onclick="closeMenu()"><span>コンセプト</span><span class="m-en">CONCEPT</span></a>
+    <a href="#works" onclick="closeMenu()"><span>施工実績</span><span class="m-en">WORKS</span></a>
+    <a href="#flow" onclick="closeMenu()"><span>ご依頼の流れ</span><span class="m-en">FLOW</span></a>
+    <a href="#about" onclick="closeMenu()"><span>会社案内</span><span class="m-en">ABOUT</span></a>
+    <a href="#faq" onclick="closeMenu()"><span>よくある質問</span><span class="m-en">FAQ</span></a>
+    <a href="#contact" onclick="closeMenu()"><span>お問い合わせ</span><span class="m-en">CONTACT</span></a>
+  </div>
+</header>
+
+<!-- ===== ヒーロー ===== -->
+<section id="hero">
+  <div class="slide active" style="background-image:url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1600&q=80')"></div>
+  <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1600&q=80')"></div>
+  <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1484154218962-a197022b5858?w=1600&q=80')"></div>
+  <div class="hero-overlay"></div>
+  <button class="hero-arrow prev" onclick="goSlide((currentSlide + slides.length - 1) % slides.length)" aria-label="前へ">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <button class="hero-arrow next" onclick="goSlide((currentSlide + 1) % slides.length)" aria-label="次へ">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+  <div class="hero-dots">
+    <button class="hero-dot active" onclick="goSlide(0)"></button>
+    <button class="hero-dot" onclick="goSlide(1)"></button>
+    <button class="hero-dot" onclick="goSlide(2)"></button>
+  </div>
+  <div class="hero-scroll">
+    <span>SCROLL</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- ===== コンセプト ===== -->
+<section id="concept">
+  <div class="inner">
+    <div class="section-title">
+      <div class="en">CONCEPT</div>
+      <div class="ja">コンセプト</div>
+      <div class="line"></div>
+    </div>
+    <h2>"小さな修繕"から大きなリフォームまで、<br>日本のリフォームを、もっと<span class="accent">ラク</span>に。</h2>
+    <div class="body">
+      <p>特にお部屋の内装工事において、<strong>"どこよりも早く"</strong>、<strong>"どこよりも分かりやすく"</strong>をモットーに、お客様のニーズに寄り添った施工をご提供します。</p>
+      <p>突然の修繕やリフォームが必要になった際、「どの業者に頼めばいいんだろう」「すぐに対応してもらえるのか不安」といった悩みを抱える方は少なくありません。</p>
+      <p>RAKUはそんなお客様の不安を取り除き、迅速かつ明瞭な対応をお約束します。お客様から「"ラク"に工事をお願いできるな」と思っていただけるリフォーム業者を目指しています。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 施工実績 ===== -->
+<section id="works">
+  <div class="inner">
+    <div class="section-title">
+      <div class="en">WORKS</div>
+      <div class="ja">施工実績</div>
+      <div class="line"></div>
+    </div>
+  </div>
+  <div class="works-grid">
+    <div class="works-grid-item"><img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80" alt="施工実績1" /></div>
+    <div class="works-grid-item"><img src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=800&q=80" alt="施工実績2" /></div>
+    <div class="works-grid-item"><img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80" alt="施工実績3" /></div>
+    <div class="works-grid-item"><img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&q=80" alt="施工実績4" /></div>
+    <div class="works-grid-item"><img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80" alt="施工実績5" /></div>
+    <div class="works-grid-item"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80" alt="施工実績6" /></div>
+  </div>
+  <div class="inner">
+    <div class="works-stats">
+      <div class="works-stat">
+        <div class="num">85<span class="unit">件</span></div>
+        <div class="label">年間施工実績</div>
+      </div>
+      <div class="works-stat">
+        <div class="num">3.8<span class="unit">日</span></div>
+        <div class="label">見積もり〜施工の平均</div>
+      </div>
+      <div class="works-stat">
+        <div class="num">365<span class="unit">日</span></div>
+        <div class="label">24時間受付</div>
+      </div>
+    </div>
+    <div class="works-more">
+      <a href="https://rehome-raku.com/raku-%e6%96%bd%e5%b7%a5%e5%ae%9f%e7%b8%be/" target="_blank" rel="noopener noreferrer">施工実績をすべて見る</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 特徴 ===== -->
+<section id="features">
+  <div class="inner">
+    <div class="section-title">
+      <div class="en">FEATURES</div>
+      <div class="ja">RAKUの特徴</div>
+      <div class="line"></div>
+    </div>
+    <div class="feature-list">
+      <div class="feature-item">
+        <div class="feature-num">01</div>
+        <div>
+          <h3>業界最速のスピード対応</h3>
+          <p>RAKUでは、365日24時間対応を徹底しています。「今すぐにリフォーム工事を依頼したい」「急なトラブルに対応してほしい」そういった緊急のご相談にも即対応し、お客様の時間を無駄にしません。問い合わせ後、最短で見積もりから施工までを進めます。弊社の見積もりから施工までの平均リードタイムは3.8日です(2025年6月時点実績)。</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-num">02</div>
+        <div>
+          <h3>分かりやすく、納得できる説明</h3>
+          <p>リフォーム工事において、「どんな工事が必要なのか」「費用はどのくらいかかるのか」「本当に適正な価格なのか」など、多くの疑問が生まれます。RAKUリフォームでは、経験豊富な専門スタッフが、どんな方にも理解しやすい説明を心がけ、施工内容や費用について透明性を持ってご案内します。</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-num">03</div>
+        <div>
+          <h3>即対応・即見積もりでスムーズな進行</h3>
+          <p>RAKUでは、問い合わせから見積もり、施工までを一貫してスムーズに進めます。「見積もりに時間がかかる」「業者とのやり取りが煩雑」といったリフォーム業界の課題を解決し、最短時間で施工を完了させることを目指します。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ストーリー ===== -->
+<section id="story">
+  <div class="inner">
+    <div class="section-title">
+      <div class="en">STORY</div>
+      <div class="ja">RAKUが生まれた背景</div>
+      <div class="line"></div>
+    </div>
+    <div class="body">
+      <h3>建築業界の課題を解決したい</h3>
+      <p>建築・リフォーム業界は、未だに多重構造や悪質業者の存在、また非効率な手続きなど、多くの課題を抱えています。「どこに頼めばいいかわからない」「適正価格が不明瞭」「対応が遅い」といった不満を持つお客様も少なくありません。そこで、RAKUは、こうした業界の問題を解決するため、「スピード・分かりやすさ・安心」を大切にしたリフォーム工事を提供することを決意しました。</p>
+      <h3>「内装リフォームといえばRAKU」を目指して</h3>
+      <p>ゼネコンや大手ハウスメーカーは広く認知されています。リフォームについてはどうでしょうか。まだまだ信頼できる業者の名前が浮かばない方も多いのではないでしょうか。私自身もその一人でした。だからこそ、「内装リフォームといえばRAKU」と、多くの方に思い浮かべてもらえるような存在になりたいと考えています。</p>
+      <p class="sign">RAKUリフォーム事業部一同</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== フロー ===== -->
+<section id="flow">
+  <div class="inner">
+    <div class="section-title">
+      <div class="en">FLOW</div>
+      <div class="ja">ご依頼の流れ</div>
+      <div class="line"></div>
+    </div>
+    <div>
+      <div class="flow-item">
+        <div class="flow-left"><div class="flow-num">01</div><div class="flow-line"></div></div>
+        <div class="flow-content"><h3>お問い合わせ</h3><p>電話・メールにてお気軽にご連絡ください。365日24時間受付しています。「まだ検討中」という方もお気軽にどうぞ。</p></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-left"><div class="flow-num">02</div><div class="flow-line"></div></div>
+        <div class="flow-content"><h3>現地調査・お見積もり</h3><p>最短即日でお伺いし、現地を確認します。見積書はその場でご提示。専門用語を使わず、分かりやすくご説明します。</p></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-left"><div class="flow-num">03</div><div class="flow-line"></div></div>
+        <div class="flow-content"><h3>ご提案・ご契約</h3><p>工事内容・費用・スケジュールをご説明します。ご納得いただいてからのご契約です。しつこい営業は一切いたしません。</p></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-left"><div class="flow-num">04</div><div class="flow-line"></div></div>
+        <div class="flow-content"><h3>施工</h3><p>経験豊富な職人が丁寧に施工します。工事中も随時ご報告しますので、外出中でも安心していただけます。</p></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-left"><div class="flow-num">05</div></div>
+        <div class="flow-content"><h3>完成・お引き渡し</h3><p>仕上がりをご確認いただき、ご満足いただけたら完了です。施工後のアフターフォローも対応しています。</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section id="faq">
+  <div class="inner">
+    <div class="section-title">
+      <div class="en">FAQ</div>
+      <div class="ja">よくあるご質問</div>
+      <div class="line"></div>
+    </div>
+    <div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <div class="faq-q-inner"><span class="faq-q-label">Q</span><span class="faq-q-text">小さな修繕(壁紙の一部だけなど)でも依頼できますか？</span></div>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner"><span class="faq-a-label">A</span><p class="faq-a-text">もちろんです。「こんな小さなことで…」と遠慮される方も多いのですが、どんな些細なことでも大丈夫です。まずはお気軽にご相談ください。</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <div class="faq-q-inner"><span class="faq-q-label">Q</span><span class="faq-q-text">見積もりだけでもお願いできますか？費用はかかりますか？</span></div>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner"><span class="faq-a-label">A</span><p class="faq-a-text">見積もりは完全無料です。現地調査も含めて費用は一切かかりません。「まだ検討中」「他社と比較したい」という方も大歓迎です。しつこい営業は一切いたしませんので、安心してご連絡ください。</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <div class="faq-q-inner"><span class="faq-q-label">Q</span><span class="faq-q-text">急なトラブルでも対応してもらえますか？</span></div>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner"><span class="faq-a-label">A</span><p class="faq-a-text">365日24時間受付しています。緊急のご相談にも即対応し、お客様の時間を無駄にしません。まずはお電話ください。</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <div class="faq-q-inner"><span class="faq-q-label">Q</span><span class="faq-q-text">工事中、部屋にいなくても大丈夫ですか？</span></div>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner"><span class="faq-a-label">A</span><p class="faq-a-text">鍵をお預かりして施工することも可能です。工事の進捗は写真でご報告しますので、外出中でも安心していただけます。</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <div class="faq-q-inner"><span class="faq-q-label">Q</span><span class="faq-q-text">費用の目安を教えてもらえますか？</span></div>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner"><span class="faq-a-label">A</span><p class="faq-a-text">工事内容や現場の状況によって異なりますが、お問い合わせいただければ概算をお伝えすることができます。正式なお見積もりは現地確認後にご提示します。</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== コンタクト ===== -->
+<section id="contact">
+  <div class="inner">
+    <div class="section-title center light">
+      <div class="en">CONTACT</div>
+      <div class="ja">お問い合わせ</div>
+      <div class="line"></div>
+    </div>
+    <p class="sub">「まだ検討中なんだけど…」「他社と相見積もりしたい」という方も大歓迎です。</p>
+    <p class="note">相談・見積もりは無料です。しつこい営業は一切いたしません。</p>
+    <div class="contact-btns">
+      <a href="mailto:raku.rehome@gmail.com" class="btn-mail">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        メールでお問い合わせ
+      </a>
+      <a href="tel:03-5326-3024" class="btn-tel">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        03-5326-3024
+      </a>
+    </div>
+    <p class="hours">365日24時間受付</p>
+  </div>
+</section>
+
+<!-- ===== 会社案内 ===== -->
+<section id="about">
+  <div class="inner">
+    <div class="section-title">
+      <div class="en">ABOUT</div>
+      <div class="ja">会社案内</div>
+      <div class="line"></div>
+    </div>
+    <table class="about-table">
+      <tbody>
+        <tr><td class="th">会社名</td><td class="td">株式会社SWAYS RAKUリフォーム事業部</td></tr>
+        <tr><td class="th">所在地</td><td class="td">〒163-1030 東京都新宿区西新宿3丁目7-1 新宿パークタワーN30階</td></tr>
+        <tr><td class="th">電話番号</td><td class="td">03-5326-3024</td></tr>
+        <tr><td class="th">メール</td><td class="td">raku.rehome@gmail.com</td></tr>
+        <tr><td class="th">営業時間</td><td class="td">365日24時間受付(施工は9:00〜18:00)</td></tr>
+        <tr><td class="th">対応エリア</td><td class="td">東京都・神奈川県・埼玉県・千葉県(その他エリアはご相談ください)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ===== フッター ===== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <img src="https://rehome-raku.com/wp-content/uploads/2024/07/RAKU_logo.png" alt="RAKU" onerror="this.style.display='none'" />
+      <div>
+        <div class="footer-logo-name">RAKUリフォーム</div>
+        <div class="footer-logo-sub">日本のリフォームを、もっとラクに。</div>
+      </div>
+    </div>
+    <nav class="footer-nav">
+      <a href="#concept">CONCEPT</a>
+      <a href="#works">WORKS</a>
+      <a href="#flow">FLOW</a>
+      <a href="#about">ABOUT</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">CONTACT</a>
+    </nav>
+  </div>
+  <div class="footer-copy">
+    <p>© RAKUリフォーム All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- ===== スマホ固定CTA ===== -->
+<div id="mobile-cta">
+  <a href="tel:03-5326-3024" class="cta-tel">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    電話で相談
+  </a>
+  <a href="#contact" class="cta-mail">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+    無料見積もり
+  </a>
+</div>
+
+<script>
+  window.addEventListener('scroll', function() {
+    var header = document.getElementById('site-header');
+    if (window.scrollY > 10) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  function toggleMenu() {
+    var menu = document.getElementById('mobile-menu');
+    var menuIcon = document.getElementById('menu-icon');
+    var closeIcon = document.getElementById('close-icon');
+    menu.classList.toggle('open');
+    if (menu.classList.contains('open')) {
+      menuIcon.style.display = 'none';
+      closeIcon.style.display = 'block';
+    } else {
+      menuIcon.style.display = 'block';
+      closeIcon.style.display = 'none';
+    }
+  }
+  function closeMenu() {
+    var menu = document.getElementById('mobile-menu');
+    var menuIcon = document.getElementById('menu-icon');
+    var closeIcon = document.getElementById('close-icon');
+    menu.classList.remove('open');
+    menuIcon.style.display = 'block';
+    closeIcon.style.display = 'none';
+  }
+
+  var currentSlide = 0;
+  var slides = document.querySelectorAll('.slide');
+  var dots = document.querySelectorAll('.hero-dot');
+
+  function goSlide(n) {
+    slides[currentSlide].classList.remove('active');
+    dots[currentSlide].classList.remove('active');
+    currentSlide = n;
+    slides[currentSlide].classList.add('active');
+    dots[currentSlide].classList.add('active');
+  }
+
+  setInterval(function() {
+    goSlide((currentSlide + 1) % slides.length);
+  }, 4000);
+
+  function toggleFaq(btn) {
+    var answer = btn.nextElementSibling;
+    var toggle = btn.querySelector('.faq-toggle');
+    var isOpen = answer.classList.contains('open');
+    document.querySelectorAll('.faq-a').forEach(function(a) { a.classList.remove('open'); });
+    document.querySelectorAll('.faq-toggle').forEach(function(t) { t.textContent = '+'; });
+    if (!isOpen) {
+      answer.classList.add('open');
+      toggle.textContent = '−';
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    var cta = document.getElementById('mobile-cta');
+    if (window.scrollY > 400) {
+      cta.style.display = 'grid';
+    } else {
+      cta.style.display = 'none';
+    }
+  });
+</script>
+</body>
+</html>
