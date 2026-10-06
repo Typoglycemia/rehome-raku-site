@@ -192,20 +192,65 @@
     /* ===== 施工実績 ===== */
     #works { padding: 96px 0; background: var(--cream); }
     #works .inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
-    .works-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 3px; margin: 40px 0;
-      border-top: 2px solid var(--green);
+
+    /* ビフォーアフター カード */
+    .ba-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 28px; margin: 40px 0 56px;
     }
-    @media (max-width: 640px) { .works-grid { grid-template-columns: repeat(2, 1fr); } }
-    .works-grid-item {
+    @media (max-width: 760px) { .ba-grid { grid-template-columns: 1fr; } }
+    .ba-card {
+      background: #fff; border: 1px solid var(--hair);
+    }
+    .ba-images {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2px; background: var(--hair);
+    }
+    .ba-img {
       position: relative; overflow: hidden; aspect-ratio: 4/3;
     }
-    .works-grid-item img {
+    .ba-img img {
       width: 100%; height: 100%; object-fit: cover; display: block;
       transition: transform 0.5s ease;
     }
-    .works-grid-item:hover img { transform: scale(1.04); }
+    .ba-img:hover img { transform: scale(1.05); }
+    .ba-tag {
+      position: absolute; top: 10px; left: 10px;
+      font-family: var(--serif); font-size: 11px; letter-spacing: 0.1em;
+      padding: 4px 12px; border-radius: 2px; color: #fff;
+    }
+    .ba-img.before .ba-tag { background: rgba(26,46,31,0.75); }
+    .ba-img.after .ba-tag { background: var(--green); }
+    .ba-caption {
+      padding: 16px 20px;
+      display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+    }
+    .ba-caption h3 {
+      font-family: var(--serif); font-weight: 500; font-size: 15px; color: var(--dark);
+    }
+    .ba-caption span {
+      font-family: var(--sans); font-size: 11px; color: var(--taupe); white-space: nowrap;
+    }
+
+    /* 施工風景（スナップ） */
+    .works-snap-label {
+      font-family: var(--sans); font-size: 11px; color: var(--taupe);
+      letter-spacing: 0.1em; margin-bottom: 16px;
+    }
+    .works-snap-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 3px; margin-bottom: 40px;
+      border-top: 2px solid var(--green);
+    }
+    @media (max-width: 640px) { .works-snap-grid { grid-template-columns: repeat(2, 1fr); } }
+    .works-snap-grid .works-grid-item {
+      position: relative; overflow: hidden; aspect-ratio: 4/3;
+    }
+    .works-snap-grid .works-grid-item img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform 0.5s ease;
+    }
+    .works-snap-grid .works-grid-item:hover img { transform: scale(1.04); }
     .works-stats {
       display: grid; grid-template-columns: repeat(3, 1fr);
       gap: 2px; background: var(--green);
@@ -467,15 +512,60 @@
       <div class="line"></div>
     </div>
   </div>
-  <div class="works-grid">
-    <div class="works-grid-item"><img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80" alt="施工実績1" /></div>
-    <div class="works-grid-item"><img src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=800&q=80" alt="施工実績2" /></div>
-    <div class="works-grid-item"><img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80" alt="施工実績3" /></div>
-    <div class="works-grid-item"><img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&q=80" alt="施工実績4" /></div>
-    <div class="works-grid-item"><img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80" alt="施工実績5" /></div>
-    <div class="works-grid-item"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80" alt="施工実績6" /></div>
-  </div>
   <div class="inner">
+    <div class="ba-grid">
+      <div class="ba-card">
+        <div class="ba-images">
+          <div class="ba-img before"><span class="ba-tag">BEFORE</span><img src="images/kitchen-before.jpg" alt="キッチン施工前" /></div>
+          <div class="ba-img after"><span class="ba-tag">AFTER</span><img src="images/kitchen-after.jpg" alt="キッチン施工後" /></div>
+        </div>
+        <div class="ba-caption"><h3>キッチンリフォーム</h3><span>解体〜造作</span></div>
+      </div>
+      <div class="ba-card">
+        <div class="ba-images">
+          <div class="ba-img before"><span class="ba-tag">BEFORE</span><img src="images/washroom-before.jpg" alt="洗面室施工前" /></div>
+          <div class="ba-img after"><span class="ba-tag">AFTER</span><img src="images/washroom-after.jpg" alt="洗面室施工後" /></div>
+        </div>
+        <div class="ba-caption"><h3>洗面室リフォーム</h3><span>壁・床・建具を一新</span></div>
+      </div>
+      <div class="ba-card">
+        <div class="ba-images">
+          <div class="ba-img before"><span class="ba-tag">BEFORE</span><img src="images/tatami-before.jpg" alt="居室施工前" /></div>
+          <div class="ba-img after"><span class="ba-tag">AFTER</span><img src="images/tatami-after.jpg" alt="居室施工後" /></div>
+        </div>
+        <div class="ba-caption"><h3>居室フローリング張替え</h3><span>和室から洋室へ</span></div>
+      </div>
+      <div class="ba-card">
+        <div class="ba-images">
+          <div class="ba-img before"><span class="ba-tag">BEFORE</span><img src="images/living-before.jpg" alt="リビング施工前" /></div>
+          <div class="ba-img after"><span class="ba-tag">AFTER</span><img src="images/living-after.jpg" alt="リビング施工後" /></div>
+        </div>
+        <div class="ba-caption"><h3>リビング壁面リフォーム</h3><span>壁面造作〜家具設置</span></div>
+      </div>
+      <div class="ba-card">
+        <div class="ba-images">
+          <div class="ba-img before"><span class="ba-tag">BEFORE</span><img src="images/meetingroom-before.jpg" alt="応接室施工前" /></div>
+          <div class="ba-img after"><span class="ba-tag">AFTER</span><img src="images/meetingroom-after.jpg" alt="応接室施工後" /></div>
+        </div>
+        <div class="ba-caption"><h3>応接室リフォーム</h3><span>軽量鉄骨下地〜仕上げ</span></div>
+      </div>
+      <div class="ba-card">
+        <div class="ba-images">
+          <div class="ba-img before"><span class="ba-tag">BEFORE</span><img src="images/entrance-before.jpg" alt="玄関施工前" /></div>
+          <div class="ba-img after"><span class="ba-tag">AFTER</span><img src="images/entrance-after.jpg" alt="玄関施工後" /></div>
+        </div>
+        <div class="ba-caption"><h3>玄関リフォーム</h3><span>内装仕上げ一式</span></div>
+      </div>
+    </div>
+
+    <div class="works-snap-label">施工風景</div>
+    <div class="works-snap-grid">
+      <div class="works-grid-item"><img src="images/extra-1.jpg" alt="施工風景1" /></div>
+      <div class="works-grid-item"><img src="images/extra-2.jpg" alt="施工風景2" /></div>
+      <div class="works-grid-item"><img src="images/extra-3.jpg" alt="施工風景3" /></div>
+      <div class="works-grid-item"><img src="images/extra-4.jpg" alt="施工風景4" /></div>
+    </div>
+
     <div class="works-stats">
       <div class="works-stat">
         <div class="num">85<span class="unit">件</span></div>
