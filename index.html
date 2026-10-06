@@ -28,6 +28,15 @@
     }
     body { background: #fff; }
 
+    /* 日本語の折り返し調整(1文字だけ次行に落ちるのを防ぐ) */
+    p, h2, h3, .faq-a-text {
+      line-break: strict;
+      word-break: auto-phrase;
+      text-wrap: pretty;
+      overflow-wrap: anywhere;
+    }
+    #concept .inner, #features .inner, #story .inner, #flow .inner, #faq .inner, #about .inner { max-width: 760px; }
+
     /* ===== ヘッダー ===== */
     #site-header {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
