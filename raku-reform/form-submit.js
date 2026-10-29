@@ -52,6 +52,25 @@
       return;
     }
 
+    function num(v) { return Number(String(v || '').replace(/[^0-9.]/g, '')) || 0; }
+    var estPrice = 0, estDiscount = 0;
+    if (isEstimate) {
+      var places = form.querySelectorAll('input[name="estimate-place[]"]:checked');
+      var ageEl = form.querySelector('input[name="estimate-age"]:checked');
+      var sizeEl = form.querySelector('input[name="estimate-size"]:checked');
+      if (!places.length || !ageEl || !sizeEl) {
+        showMsg(form, '工事箇所・築年数・広さを選択してください。', false);
+        return;
+      }
+      estPrice = num(val(form, 'estimate-price'));
+      if (!estPrice) {  // 計算プラグインの値が取れない場合は、同じ式(箇所の合計 × 築年数 × 広さ)で自前計算
+        var sum = 0;
+        Array.prototype.forEach.call(places, function (el) { sum += num(el.value); });
+        estPrice = Math.floor(sum * (num(ageEl.value) || 1) * (num(sizeEl.value) || 1));
+      }
+      estDiscount = num(val(form, 'estimate-discount')) || Math.floor(estPrice * 0.9);
+    }
+
     var data = {
       access_key: ACCESS_KEY,
       subject: isEstimate ? '【RAKUリフォームLP】簡易見積もり' : '【RAKUリフォームLP】無料相談',
@@ -68,8 +87,8 @@
       data['工事箇所'] = checkedLabels(form, 'estimate-place[]').join(', ');
       data['築年数'] = checkedLabels(form, 'estimate-age').join(', ');
       data['広さ'] = checkedLabels(form, 'estimate-size').join(', ');
-      data['概算金額'] = val(form, 'estimate-price');
-      data['割引後金額'] = val(form, 'estimate-discount');
+      data['概算金額'] = String(estPrice);
+      data['割引後金額'] = String(estDiscount);
     } else {
       data['ご相談内容'] = val(form, 'your-message');
     }
