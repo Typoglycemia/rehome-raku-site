@@ -1817,7 +1817,7 @@ html {
 .support__inner {
 	width: 1280rem;
 	padding-block: 150rem 27rem;
-	background: url(../img/support-bg.svg%3Fver1.1) no-repeat center center/100% 100%;
+	background: url(../img/support-bg.svg) no-repeat center center/100% 100%;
 	position: relative;
 	z-index: 2;
 }
@@ -3543,7 +3543,7 @@ main {
 	width: 100%;
 	aspect-ratio: 340/296;
 	padding: 30rem;
-	background-image: url(../img/about-item-bg-corporation-sp.webp%3Fver1.1);
+	background-image: url(../img/about-item-bg-corporation-sp.webp);
 }
 
 .about__itemWrap.--corporation .about__itemImg {
@@ -4004,7 +4004,7 @@ main {
 	width: 304rem;
 	padding-block: 60rem 14rem;
 	padding-inline: 12rem;
-	background-image: url(../img/support-bg-sp.svg%3Fver1.1);
+	background-image: url(../img/support-bg-sp.svg);
 }
 
 .support__title {
