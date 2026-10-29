@@ -3,10 +3,13 @@
 (function () {
   var ACCESS_KEY = '0941aad9-6363-433f-9b73-ef4d3af25a53';
   var ENDPOINT = 'https://api.web3forms.com/submit';
+  // Googleスプレッドシート記録 + 自動返信メール(Google Apps Script)
+  var SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbw2kVEis1wXAQsT2kgjLfOwSb_IQCLAKb5Bxm8xim53GszOhAqs1bAEGgOup_AmftMfjg/exec';
 
   function labelOf(el) {
     var l = el.closest('label');
-    var t = l ? l.innerText.replace(/\s+/g, ' ').trim() : '';
+    var t = l && l.querySelector('.wpcf7-list-item-label');
+    t = t ? t.textContent.trim() : (l ? l.innerText.replace(/\s+/g, ' ').trim() : '');
     return t || el.value;
   }
   function val(form, name) {
@@ -69,6 +72,25 @@
       data['割引後金額'] = val(form, 'estimate-discount');
     } else {
       data['ご相談内容'] = val(form, 'your-message');
+    }
+
+    // スプレッドシート記録・自動返信(結果は待たず、失敗してもフォーム送信には影響させない)
+    if (SHEET_ENDPOINT.indexOf('https://') === 0) {
+      try {
+        fetch(SHEET_ENDPOINT, {
+          method: 'POST', mode: 'no-cors', keepalive: true,
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            type: isEstimate ? 'estimate' : 'contact',
+            name: name, phone: tel, email: mail,
+            timing: data['工事の希望時期'], area: data['工事場所(住所)'],
+            kind: data['工事の種類'] || '',
+            place: data['工事箇所'] || '', age: data['築年数'] || '', size: data['広さ'] || '',
+            price: data['概算金額'] || '', discount: data['割引後金額'] || '',
+            message: isEstimate ? '' : (data['ご相談内容'] || '')
+          })
+        });
+      } catch (err) {}
     }
 
     var btn = form.querySelector('input[type="submit"]');
