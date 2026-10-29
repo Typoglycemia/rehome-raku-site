@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>お問い合せ送信完了 | RAKUリフォーム</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/raku-reform/wp-content/themes/lp/assets/css/style.css">
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-KWN8N5SS');</script>
+</head>
+<body>
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__content">
+                <div class="header__main">
+                    <div class="header__logo">
+                        <a href="/raku-reform/#top"><img src="/raku-reform/wp-content/themes/lp/assets/img/logo.webp" alt="RAKUリフォーム" width="88" height="77"></a>
+                    </div>
+                    <nav class="header__nav">
+                        <ul class="header__menu">
+                            <li class="header__list"><a href="/raku-reform/#individual">サービス紹介</a></li>
+                            <li class="header__list"><a href="/raku-reform/#price">料金・相場</a></li>
+                            <li class="header__list"><a href="/raku-reform/#voice">施工事例</a></li>
+                            <li class="header__list"><a href="/raku-reform/#faq">FAQ</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="header__logo is-sp">
+                <a href="/raku-reform/"><img src="/raku-reform/wp-content/themes/lp/assets/img/logo.webp" alt="RAKUリフォーム" width="88" height="77"></a>
+            </div>
+        </div>
+    </header>
+
+<main class="thanks">
+  <div class="thanks__inner inner">
+    <h1 class="thanks__title">お問い合せ送信完了</h1>
+
+    <div class="estimate__result" id="js-estimate-result" style="display:none">
+      <p class="estimate__resultLabel">あなたの目安費用</p>
+      <p class="estimate__resultPrice">
+        <span id="estimatePrice"></span>
+        <span class="estimate__tax">(税抜)<br><span>円</span></span>
+      </p>
+      <p class="estimate__resultNote">※現地状況により変動します</p>
+    </div>
+
+    <div class="estimate__discount" id="js-estimate-discount" style="display:none">
+      <div class="estimate__discountInner">
+        <div class="estimate__discountLeft">
+          <span class="estimate__discountLogo"><img src="/raku-reform/wp-content/themes/lp/assets/img/logo.webp" alt="RAKUパック"></span>
+          <span class="estimate__discountLead">RAKUパックなら</span>
+        </div>
+        <div class="estimate__discountRight">
+          <div class="estimate__discountPrice">
+            <span id="estimateDiscountPrice"></span>
+            <span class="estimate__discountUnit"><span>(税抜)</span><br>円</span>
+          </div>
+          <span class="estimate__discountBadge">【10%OFF!】</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="thanks__text">
+      お問い合せいただき<br class="is-sp">ありがとうございます！<br>
+      担当者よりご連絡いたしますので、今しばらくお待ちくださいませ。
+    </p>
+    <a class="thanks__btn" href="/raku-reform/">TOPに戻る</a>
+  </div>
+</main>
+
+    <footer class="footer">
+        <div class="footer__inner">
+            <div class="footer__logoWrap">
+                <div class="footer__logo"><img src="/raku-reform/wp-content/themes/lp/assets/img/logo2.webp" alt="RAKUリフォーム" width="88" height="77"></div>
+            </div>
+            <ul class="footer__menu">
+                <li class="footer__list"><a href="https://rehome-raku.com/" target="_blank">会社情報</a></li>
+                <li class="footer__list"><a href="https://rehome-raku.com/利用規約" target="_blank">利用規約</a></li>
+                <li class="footer__list"><a href="https://rehome-raku.com/プライバシーポリシー" target="_blank">プライバシーポリシー</a></li>
+            </ul>
+        </div>
+        <p class="footer__copyright">copyright</p>
+    </footer>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KWN8N5SS" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>
+  (function () {
+    var price = parseInt(new URLSearchParams(location.search).get('price'), 10) || 0;
+    if (price > 0) {
+      var discount = Math.floor(price * 0.9);
+      document.getElementById('estimatePrice').textContent = price.toLocaleString();
+      document.getElementById('js-estimate-result').style.display = '';
+      document.getElementById('estimateDiscountPrice').textContent = discount.toLocaleString();
+      document.getElementById('js-estimate-discount').style.display = '';
+    }
+  })();
+</script>
+</body>
+</html>
