@@ -134,3 +134,40 @@
     });
   }, true);
 })();
+
+/* ページ内リンク(無料問い合わせ・簡易見積もり等)の移動位置を安定させる。
+   旧サイトでは「トップ(/)の#〇〇」へ移動していたが、移設後は同じページ内の移動にする。
+   画像の遅延読み込みで位置がずれるため、移動後に位置を再調整する。 */
+(function () {
+  function headerOffset() {
+    var h = document.querySelector('.header');
+    return h ? h.offsetHeight : 0;
+  }
+  function scrollToId(id) {
+    var t = document.getElementById(id);
+    if (!t) return false;
+    function go() {
+      var y = t.getBoundingClientRect().top + window.pageYOffset - headerOffset() - 8;
+      window.scrollTo(0, Math.max(0, y));
+    }
+    go();
+    setTimeout(go, 300);
+    setTimeout(go, 900);
+    return true;
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href*="#"]');
+    if (!a) return;
+    var href = a.getAttribute('href') || '';
+    var m = href.match(/^(?:https?:\/\/rehome-raku\.com)?(?:\/raku-reform\/)?(?:index\.html)?#([A-Za-z0-9_-]+)$/);
+    if (!m) return;
+    if (scrollToId(m[1])) {
+      e.preventDefault();
+      if (history.replaceState) history.replaceState(null, '', '#' + m[1]);
+    }
+  });
+  window.addEventListener('load', function () {
+    var id = location.hash.replace('#', '');
+    if (id) scrollToId(id);
+  });
+})();
